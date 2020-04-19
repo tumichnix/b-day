@@ -9,7 +9,7 @@ class BasicTest extends TestCase
     public function testTrueIsTrue()
     {
         $this->assertTrue(true);
-        $this->assertTrue(TRUE);
+        $this->assertTrue(true);
     }
 
     public function testFalseIsFalse()
