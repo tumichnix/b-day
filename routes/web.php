@@ -15,11 +15,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(\App\Providers\RouteServiceProvider::HOME);
 });
 
 Auth::routes([
-    'register' => true,
+    'register' => false,
 ]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::prefix('app')
+    ->namespace('App')
+    ->middleware('auth')
+    ->group(function () {
+        Route::get('/', 'DashboardController@getIndex')
+            ->name('app.get.dashboard.index');
+    });
