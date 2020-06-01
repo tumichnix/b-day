@@ -3,9 +3,7 @@
 namespace App\Foundation\Http\Resources;
 
 use App\Foundation\Http\JsonApiResponse;
-use Illuminate\Http\Resources\Json\PaginatedResourceResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Illuminate\Pagination\AbstractPaginator;
 
 class Collection extends ResourceCollection
 {

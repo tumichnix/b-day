@@ -9,7 +9,7 @@ abstract class ApiController extends Controller
 {
     public function authorize($ability, $arguments = [])
     {
-        if (!Auth::guard($this->getGuard())->user()->can($ability, $arguments)) {
+        if (! Auth::guard($this->getGuard())->user()->can($ability, $arguments)) {
             throw new UnauthorizedRequestException(app('request'));
         }
     }
