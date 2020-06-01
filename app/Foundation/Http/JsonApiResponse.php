@@ -3,10 +3,10 @@
 namespace App\Foundation\Http;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Contracts\Support\Arrayable;
 
 trait JsonApiResponse
 {

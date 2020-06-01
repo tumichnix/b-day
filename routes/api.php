@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,11 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'namespace' => 'Api',
 ], function () {
-
     Route::group([
-        'prefix' => 'user'
+        'prefix' => 'user',
     ], function () {
-
         Route::get('/', 'UserController@getIndex')
             ->name('api.user.get.index');
         Route::get('{user}', 'UserController@getShow')
