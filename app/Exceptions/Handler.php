@@ -2,7 +2,12 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Ramsey\Uuid\Uuid;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -50,6 +55,32 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($this->isJsonApiCall($request)) {
+            $errors = [];
+            $error = [
+                'id' => Uuid::uuid4()->toString(),
+                'status' => $status = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500,
+                'title' => $exception->getMessage(),
+            ];
+            if ($exception instanceof NotFoundHttpException) {
+                $error['title'] = 'Not found';
+                $error['detail'] = 'The resource you are requesting does not exist';
+            }
+            if ($exception instanceof ModelNotFoundException) {
+                $error['title'] = 'Model not found';
+                $error['detail'] = $exception->getMessage();
+                $error['status'] = $status = 404;
+            }
+            $errors['errors'][] = $error;
+
+            return new JsonResponse($errors, $status);
+        }
+
         return parent::render($request, $exception);
+    }
+
+    protected function isJsonApiCall(Request $request): bool
+    {
+        return $request->is('api/*') || $request->expectsJson();
     }
 }
