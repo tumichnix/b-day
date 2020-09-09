@@ -18,10 +18,6 @@ Route::get('/', function () {
     return redirect(\App\Providers\RouteServiceProvider::HOME);
 });
 
-Auth::routes([
-    'register' => false,
-]);
-
 Route::prefix('app')
     ->namespace('App')
     ->middleware('auth')
